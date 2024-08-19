@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:live_football_score/controller/home_screen_controller.dart';
-import 'package:live_football_score/service/generate_fcm_auth_access_token.dart';
 import 'package:live_football_score/service/notification_services.dart';
 import 'package:live_football_score/view/widgets/live_list_item_widget.dart';
 import 'package:get/get.dart';
@@ -93,15 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () async {
+            onTap: ()  {
               toastShow(
                 "text",
                 const Color(0xff068870),
                 Colors.white,
               );
-              final GenerateFcmAuthAccessToken fcmAccessToken = GenerateFcmAuthAccessToken();
-              final token = await fcmAccessToken.getAccessToken();
-              debugPrint("Firebase api token is: $token");
             },
             child: Container(
               alignment: Alignment.center,
