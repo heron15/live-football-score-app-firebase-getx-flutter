@@ -14,12 +14,19 @@ A live football score app with firebase and getx.
     <li>
         Used firebase data auto listening functionality.
     </li>
+    <li>
+        Used Firebase push notification.
+    </li>
+    <li>
+        Used GoRouter for manage route.
+    </li>
 </ol>
 
 ## Screenshots
 
 <div style="display:flex">
     <img src="screenshots/s01.jpg" alt="Home Screen" width="150" height="300" style="margin-right: 30px;">
+    <img src="screenshots/s02.jpg" alt="Home Screen" width="150" height="300" style="margin-right: 30px;">
 </div>
 
 This project is a starting point for a Flutter application.
