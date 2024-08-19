@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:live_football_score/core/app_route.dart';
 import 'package:live_football_score/core/dependency_injection.dart';
-import 'package:live_football_score/view/screens/home_screen.dart';
 
 class LiveFootballScore extends StatefulWidget {
   const LiveFootballScore({super.key});
@@ -20,13 +20,15 @@ class _LiveFootballScoreState extends State<LiveFootballScore> {
         statusBarIconBrightness: Brightness.dark,
       ),
     );
-    return GetMaterialApp(
+    return GetMaterialApp.router(
       debugShowCheckedModeBanner: false,
+      routerDelegate: AppRoute.router.routerDelegate,
+      routeInformationParser: AppRoute.router.routeInformationParser,
+      routeInformationProvider: AppRoute.router.routeInformationProvider,
       initialBinding: DependencyInjection(),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const HomeScreen(),
     );
   }
 }

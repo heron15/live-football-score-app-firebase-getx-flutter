@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:live_football_score/controller/home_screen_controller.dart';
+import 'package:live_football_score/service/generate_fcm_auth_access_token.dart';
+import 'package:live_football_score/service/notification_services.dart';
 import 'package:live_football_score/view/widgets/live_list_item_widget.dart';
 import 'package:get/get.dart';
+import 'package:live_football_score/view/widgets/toast_show.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +15,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeScreenController _homeScreenController = Get.find<HomeScreenController>();
+  final NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    //notificationServices.isTokenRefresh();
+    notificationServices.getDeviceToken().then((value) {
+      debugPrint("Device Token: $value");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,17 +92,29 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.grey.withAlpha(80),
-            ),
-            child: const Icon(
-              Icons.notifications,
-              size: 20,
+          GestureDetector(
+            onTap: () async {
+              toastShow(
+                "text",
+                const Color(0xff068870),
+                Colors.white,
+              );
+              final GenerateFcmAuthAccessToken fcmAccessToken = GenerateFcmAuthAccessToken();
+              final token = await fcmAccessToken.getAccessToken();
+              debugPrint("Firebase api token is: $token");
+            },
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.grey.withAlpha(80),
+              ),
+              child: const Icon(
+                Icons.notifications,
+                size: 20,
+              ),
             ),
           ),
         ],
